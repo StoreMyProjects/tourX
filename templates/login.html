@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="container-sm">
+    <div class="row justify-content-center">
+        <div class="col-sm-9 p-5">
+            {% if msg %}
+            <div><h4 style="text-align: center; color: red;">{{ msg }}</h4></div>
+            {% endif %}
+            <form class="card p-5" action="/login" method="post" style="background-color:lightcyan;">
+                <h1 style="text-align: center; color: blueviolet;">LOGIN</h1>
+                <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                <label for="userpassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="userpassword" name="password" required>
+                </div>
+                <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-center">
+                    <input class="btn btn-primary" type="submit" value="Sign In">
+                </div>
+            </form>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for('register') }}">New around here? Sign up</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

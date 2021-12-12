@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="container-sm h-100" >
+    <div class="row justify-content-center">
+        <div class="col-sm-9 p-5">
+            {% if msg %}
+            <div><h4 style="text-align: center; color: green;">{{ msg }}</h4></div>
+            {% endif %}
+            {% if error %}
+            <div><h4 style="text-align: center; color: red;">{{ error }}</h4></div>
+            {% endif %}
+            <form  class="card p-5" action="/register" method="post" style="background-color: lightcyan;">
+                <h2 style="text-align: center; color: blueviolet;">Registration Form</h2>
+                <div class="mb-3">
+                    Name: <input id="name" type="text" class="form-control" name="name" required>
+                </div>
+                <div class="mb-3">
+                    Email: <input id="email" type="email" class="form-control" name="email" required>
+                </div>
+                <div class="mb-3">
+                    Username<input type="text" class="form-control" aria-describedby="usernameHelp" name="username" required>
+                    <div id="usernameHelp" class="form-text">Your username must contain letters and numbers, and letters must be lowercase.</div>
+                </div>
+                <div class="mb-3">
+                    Password<input id="pass" type="password" class="form-control" aria-describedby="passwordHelpBlock" name="password" required>
+                    <div id="passwordHelpBlock" class="form-text">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</div>
+                </div>
+                <div class="mb-3">
+                    Confirm Password<input id="pass" type="password" class="form-control" aria-describedby="passwordHelpBlock1" name="confirm" required>
+                    <div id="passwordHelpBlock1" class="form-text">Re-enter password</div>
+                </div>
+                <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-center">
+                    <input class="btn btn-primary" type="submit" value="Register">
+                </div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_for('login') }}">Already Registered? Go back to Login</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
