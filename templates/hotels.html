@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-
+<head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">TourX</a>
@@ -41,8 +41,228 @@
       </ul>
     
     </div>
-  </nav>
+</nav>
 
-<h2>Book Hotel Rooms Here</h2>
+<h2>Hotels</h2>
+<head>
 
+  
+<style type="text/css">
+  .box
+  {
+  box-align: center;
+	padding:10%;
+	-webkit-box-shadow: 0px 0px 5px 0px rgb(15, 4, 15);
+  -moz-box-shadow: 0px 0px 5px 0px rgb(100, 202, 5);
+  box-shadow: 0px 0px 10px 0px rgb(107, 8, 107);
+  }
+  
+  .box input, .box input::placeholder, .box select option, .box select
+  {
+    align-self: center;
+	  font-size:12px;
+	  font-weight:500;
+	  color:#000;
+  }
+  
+  .box .btn
+  {
+    padding: auto;
+    align-self: center;
+	  width: 75%;
+	  color:rgb(99, 22, 22);
+  }
+  
+  .bg
+  {
+	  outline:0px;
+	  color:rgb(255, 0, 0);
+	  background:url(clender.png) no-repeat left ;
+	  background-position: 7px 7px;
+  }
+  
+  .bg::placeholder
+  {
+	  padding-left:15px;
+  }
+  
+ 
+</style>
+
+</head>
+
+<body>
+
+ 
+   <div class="container"> 
+     <div class="col-md-6">
+       <div class="box">
+        <div class="row">
+           <div class="col-md-5">
+             <div class="form-group">
+                <input name="" type="text" class="form-control" placeholder="Name" />
+             </div>
+           </div>
+           
+        
+           
+        </div>
+        
+        
+        <p></p>
+         <div class="row">
+           <div class="col-md-5">
+             <div class="form-group">
+                <input name="" type="text" class="form-control" placeholder="Email ID" />
+             </div>
+           </div>
+           <br><p>
+
+           <div class="col-md-5">
+             <div class="form-group">
+                <input name="" type="text" class="form-control" placeholder="Mobile No" />
+             </div>
+           </div>
+           <p></p>
+           <div class="col-md-5">
+             <div class="form-group">
+                <input name="" type="text" class="form-control" placeholder="Nationality" />
+             </div>
+           </div>
+           <p></p>
+
+           <div class="col-md-5">
+             <div class="form-group">
+                <input name="" type="text" class="form-control" placeholder="Location" />
+             </div>
+           </div>
+        </div>
+            <p></p>
+        
+        
+        <div class="row">
+           <div class="col-md-5">
+             <div class="form-group">
+                <select name="select" class="form-control" name="h_category" required="required" id="select">
+                  <option>--Select Hotel Category--</option>
+                  <option>Resort</option>
+                  <option>Luxury</option>
+                  <option>Deluxe</option>
+                  <option>7 Star Hotel</option>
+                  <option>5 Star Hotel</option>
+                  <option>3 Star Hotel</option>
+                  <option>Budget Hotel</option>
+                </select>
+             </div>
+           </div>
+           <p></p>
+           <div class="col-md-5">
+             <div class="form-group">
+                <select name="" class="form-control">
+                  <option>--Select Room Type--</option>
+                  <option>Standard</option>
+                  <option>Deluxe</option>
+                  <option>Premium</option>
+                </select>
+             </div>
+           </div>
+           <p></p>
+           <div class="col-md-5">
+             <div class="form-group">
+                <select name="" class="form-control">
+                   <option>--No Of Guest--</option>
+                   <option>1</option>
+                   <option>2</option>
+                   <option>3</option>
+                   <option>4</option>
+                   <option>5</option>
+                   <option>6</option>
+                   <option>7</option>
+                   <option>8</option>
+                   <option>9</option>
+                   <option>10</option>
+                   <option>10+</option>
+                </select>
+             </div>
+           </div>
+           <p></p>
+           <div class="col-md-5">
+             <div class="form-group">
+                 <select name="" class="form-control">
+                   <option>--No Of Days--</option>
+                   <option>1</option>
+                   <option>2</option>
+                   <option>3</option>
+                   <option>4</option>
+                   <option>5</option>
+                   <option>6</option>
+                   <option>7</option>
+                   <option>8</option>
+                   <option>9</option>
+                   <option>10</option>
+                   <option>10+</option>
+                </select>
+             </div>
+           </div>
+        </div>
+        <p></p>
+        
+        <div class="row">
+           <div class="col-md-5">
+             <div class="form-group">
+                 <input  class="form-control bg" type="text" placeholder="Check in Date"  id="example1">
+             </div>
+           </div>
+           <p></p>
+           <div class="col-md-5">
+             <div class="form-group">
+                <input  class="form-control bg" type="text" placeholder="Check Out Date"  id="example2">
+             </div>
+           </div>
+           <p></p>
+           <div class="col-md-5">
+             <div class="form-group">
+                 <select name="" class="form-control">
+                   <option>--Mode Of Payment--</option>
+                   <option>Cash</option>
+                   <option>Online</option>
+                   
+                </select>
+             </div>
+           </div>
+           <p></p>
+           <div class="col-md-5">
+             <div class="form-group">
+                <input name="" type="button" class="btn btn-primary" value="BOOK ROOM" / href="{{ url_for('flights') }}>
+             </div>
+           </div>
+        </div>
+       </div>
+       
+       <p></p>
+       <div class="col-md-5">
+       
+       </div>
+        
+        
+     </div>
+   </div>
+
+
+
+      <script type="text/javascript">
+        $(document).ready(function () {
+          $('#example1').datepicker({
+            format: "dd/mm/yyyy"
+          });          
+        });
+        
+        $(document).ready(function () {
+          $('#example2').datepicker({
+            format: "dd/mm/yyyy"
+          });          
+        });
+      </script>
+</body>
+</html>
 {% endblock %}
