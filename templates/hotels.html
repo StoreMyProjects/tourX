@@ -43,34 +43,44 @@
     </div>
 </nav>
 
-<h2>Hotels</h2>
+<h1><i>Book hotels</i></h1>
+
 <head>
 
   
 <style type="text/css">
-  .box
-  {
-  box-align: center;
-	padding:10%;
-	-webkit-box-shadow: 0px 0px 5px 0px rgb(15, 4, 15);
-  -moz-box-shadow: 0px 0px 5px 0px rgb(100, 202, 5);
-  box-shadow: 0px 0px 10px 0px rgb(107, 8, 107);
+  h1{
+    text-align: center;
+    color: antiquewhitegi;
   }
   
-  .box input, .box input::placeholder, .box select option, .box select
+  .box
   {
+  
+	padding:10%;
+	-webkit-box-shadow: 0px 0px 10px 0px rgb(15, 4, 15);
+  -moz-box-shadow: 0px 0px 10px 0px rgb(100, 202, 5);
+  box-shadow: 0px 0px 10px 0px rgb(0, 0, 0);
+  }
+  .container
+  {
+    margin-left: 25%;
+  }
+  .box input, .box input::placeholder, .box select option, .box select
+  { margin-left: auto;
     align-self: center;
 	  font-size:12px;
 	  font-weight:500;
-	  color:#000;
+	  color:rgb(0, 0, 0);
   }
   
   .box .btn
   {
+    
     padding: auto;
     align-self: center;
 	  width: 75%;
-	  color:rgb(99, 22, 22);
+	  color:rgb(0, 0, 0);
   }
   
   .bg
@@ -85,7 +95,10 @@
   {
 	  padding-left:15px;
   }
-  
+  body
+  {
+  background-color: #00b7ff;
+  }
  
 </style>
 
@@ -155,7 +168,7 @@
                 </select>
              </div>
            </div>
-           <p></p>
+           
            <div class="col-md-5">
              <div class="form-group">
                 <select name="" class="form-control">
@@ -185,7 +198,7 @@
                 </select>
              </div>
            </div>
-           <p></p>
+           
            <div class="col-md-5">
              <div class="form-group">
                  <select name="" class="form-control">
@@ -213,7 +226,7 @@
                  <input  class="form-control bg" type="text" placeholder="Check in Date"  id="example1">
              </div>
            </div>
-           <p></p>
+           
            <div class="col-md-5">
              <div class="form-group">
                 <input  class="form-control bg" type="text" placeholder="Check Out Date"  id="example2">
