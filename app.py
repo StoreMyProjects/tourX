@@ -88,5 +88,9 @@ def hotels():
 def flights():
     return render_template("flights.html")
 
+@app.route('/bookings')
+def bookingdetails():
+    return render_template("bookings.html")
+
 if __name__ == "__main__":
-    app.run(port=5656, debug=True)
+    app.run(port=5665, debug=True)

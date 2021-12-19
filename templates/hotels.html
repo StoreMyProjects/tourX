@@ -25,6 +25,9 @@
           <a class="nav-link" href="{{ url_for('hotels') }}">Hotels</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('bookingdetails') }}">Bookings</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ url_for('about') }}">About us</a>
         </li>
         <ul class="navbar-nav">
@@ -41,8 +44,70 @@
       </ul>
     
     </div>
-  </nav>
+</nav>
 
-<h2>Book Hotel Rooms Here</h2>
+<!-- <h2 style="text-align: center;">Hotel Rooms</h2> -->
+<div style="background-image: url(https://www.hospitality-interiors.net/sites/hospitality-interiors.net/files/styles/article-header/public/images/article/2019/02/ponsfordw.jpg?itok=5Dyf_7R9); height:100vh;">
+<div class="container-sm h-100">
+  <div class="row justify-content-center">
+    <div class="col-sm-9 p-5">
+        <form class="row g-3" action="">            
+
+          <div class="col-md-4">
+            <label for="inputState" class="form-label">Hotel Category</label>
+            <select id="inputState" class="form-select">
+              <option selected>--Select--</option>
+                <option>5 Stars</option>
+                <option>4 Stars</option>
+                <option>3 Stars</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="inputState2" class="form-label">Room Type</label>
+            <select id="inputState2" class="form-select">
+              <option selected>--Select--</option>
+              <option>Luxury</option>
+              <option>Deluxe</option> 
+              <option>AC</option>
+              <option>Non-AC</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="noOfGuests" class="form-label">No of guests</label>
+            <input type="number" class="form-control" id="noOfGuests">
+          </div>
+
+          <div class="col-md-4">
+            <label for="departure" class="form-label">CheckIn Date</label>
+            <input type="date" class="form-control" id="departure">
+          </div>
+          
+          <div class="col-md-4">
+            <label for="return" class="form-label">CheckOut Date</label>
+            <input type="date" class="form-control" id="return">
+          </div>
+
+          <div class="col-md-4">
+            <label for="noOfDays" class="form-label">No of days</label>
+            <input type="number" class="form-control" id="noOfDays">
+          </div>
+          
+          <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-primary">Search Hotels</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .form-label {
+    color: white;
+  }
+</style>
 
 {% endblock %}
