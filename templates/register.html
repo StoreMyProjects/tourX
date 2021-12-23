@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<div class="container-sm h-100" >
+<div class="container-sm h-100" style="background: linear-gradient(150deg,#6147f1, #cc33cc);">
     <div class="row justify-content-center">
         <div class="col-sm-9 p-5">
             {% if msg %}
@@ -11,7 +11,7 @@
             {% if error %}
             <div><h4 style="text-align: center; color: red;">{{ error }}</h4></div>
             {% endif %}
-            <form  class="card p-5" action="/register" method="post" style="background-color: lightcyan;">
+            <form  class="card p-5" action="/register" method="post" style="background: linear-gradient(150deg,#9586eb, #ca8aca);">
                 <h2 style="text-align: center; color: blueviolet;">Registration Form</h2>
                 <div class="mb-3">
                     Name: <input id="name" type="text" class="form-control" name="name" placeholder="firstname lastname" required>
