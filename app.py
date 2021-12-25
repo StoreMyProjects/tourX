@@ -92,5 +92,10 @@ def flights():
 def bookingdetails():
     return render_template("bookings.html")
 
+@app.route('/invoice')
+def invoice():
+    return render_template("invoice.html")
+
+
 if __name__ == "__main__":
     app.run(port=5665, debug=True)
