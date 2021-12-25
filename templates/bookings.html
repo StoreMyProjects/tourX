@@ -46,6 +46,33 @@
     </div>
 </nav>
 
-<h3>here it will display your booking details.</h3>
+<!-- <h3>here it will display your booking details.</h3> -->
+
+<table border="1" style="color: white;">
+    <thead>
+        <td><h3>Flight Name</h3></td>
+        <td><h3>Timing</h3></td>
+        <td><h3>Duration</h3></td>
+        <td><h3>Stops</h3></td>
+        <td><h3>Trip Cost</h3></td>
+        <td><h3>Hotel ID</h3></td>
+        <td><h3>Hotel Name</h3></td>
+        <td><h3>Address</h3></td>
+        <td><h3>Customer Ratings</h3></td>
+    </thead>
+    {% for row in rows %}
+    <tr>
+      <td><h3>{{ row['flight_name'] }}</h3></td>
+      <td><h3>{{ row['timing'] }}</h3></td>
+      <td><h3>{{ row['duration'] }}</h3></td>
+      <td><h3>{{ row['stops'] }}</h3></td>
+      <td><h3>{{ row['trip_cost'] }}</h3></td>
+      <td><h3>{{ row['hotel_id'] }}</h3></td>
+      <td><h3>{{ row['hotel_name'] }}</h3></td>
+      <td><h3>{{ row['address'] }}</h3></td>
+      <td><h3>{{ row['cust_ratings'] }}</h3></td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

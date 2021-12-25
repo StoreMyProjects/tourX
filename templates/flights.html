@@ -51,11 +51,15 @@
   <div class="container-sm h-100">
   <div class="row justify-content-center">
       <div class="col-sm-9 p-5">
-          <form class="row g-3" action="">
+          <form class="row g-3" action="/flights" method="post">
+
+            {% if msg %}
+            <div><h4 style="text-align: center; color: white;">{{ msg }}</h4></div>
+            {% endif %}
 
             <div class="col-md-3">
               <label for="trip" class="form-label" >Trip Type</label>
-              <select class="form-select" id="trip">
+              <select class="form-select" id="trip" name="trip_type">
                 <option selected>Round Trip</option>
                   <option>One Way</option>
               </select>
@@ -63,7 +67,7 @@
 
             <div class="col-md-3">
               <label for="classtype" class="form-label">Class</label>
-              <select class="form-select" id="classtype">
+              <select class="form-select" id="classtype" name="class_type">
                 <option selected>Economy</option>
                 <option>Premium Economy</option>
                 <option>Business</option>
@@ -73,17 +77,17 @@
 
             <div class="col-md-3">
               <label for="departure" class="form-label">Departure</label>
-              <input type="date" class="form-control" id="departure">
+              <input type="date" class="form-control" id="departure" name="departure">
             </div>
 
             <div class="col-md-3">
               <label for="return" class="form-label">Return</label>
-              <input type="date" class="form-control" id="return">
+              <input type="date" class="form-control" id="return" name="return">
             </div>
 
             <div class="col-md-4">
               <label for="passengers" class="form-label">No. of passengers</label>
-              <input type="number" class="form-control" id="passengers">
+              <input type="number" class="form-control" id="passengers" name="passengers">
             </div>
               
             <div class="col-md-4">
@@ -105,6 +109,25 @@
     </div>
   </div>
 </div>
+
+<table border="1" style="color: white;">
+  <thead>
+      <td><h3>Flight Name</h3></td>
+      <td><h3>Timing</h3></td>
+      <td><h3>Duration</h3></td>
+      <td><h3>Stops</h3></td>
+      <td><h3>Trip Cost</h3></td>
+  </thead>
+  {% for row in rows %}
+  <tr>
+    <td><h3>{{ row['flight_name'] }}</h3></td>
+    <td><h3>{{ row['timing'] }}</h3></td>
+    <td><h3>{{ row['duration'] }}</h3></td>
+    <td><h3>{{ row['stops'] }}</h3></td>
+    <td><h3>{{ row['trip_cost'] }}</h3></td>
+  </tr>
+  {% endfor %}
+</table>
 
 <style>
   .form-label {

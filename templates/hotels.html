@@ -51,11 +51,15 @@
 <div class="container-sm h-100">
   <div class="row justify-content-center">
     <div class="col-sm-9 p-5">
-        <form class="row g-3" action="">            
+        <form class="row g-3" action="/hotels" method="post">
+          
+          {% if msg %}
+            <div><h4 style="text-align: center; color: white;">{{ msg }}</h4></div>
+          {% endif %}
 
           <div class="col-md-4">
             <label for="inputState" class="form-label">Hotel Category</label>
-            <select id="inputState" class="form-select">
+            <select id="inputState" class="form-select" name="ratings">
               <option selected>--Select--</option>
                 <option>5 Stars</option>
                 <option>4 Stars</option>
@@ -65,7 +69,7 @@
 
           <div class="col-md-4">
             <label for="inputState2" class="form-label">Room Type</label>
-            <select id="inputState2" class="form-select">
+            <select id="inputState2" class="form-select" name="room_type">
               <option selected>--Select--</option>
               <option>Luxury</option>
               <option>Deluxe</option> 
@@ -76,22 +80,22 @@
 
           <div class="col-md-4">
             <label for="noOfGuests" class="form-label">No of guests</label>
-            <input type="number" class="form-control" id="noOfGuests">
+            <input type="number" class="form-control" id="noOfGuests" name="noOfGuests">
           </div>
 
           <div class="col-md-4">
             <label for="departure" class="form-label">CheckIn Date</label>
-            <input type="date" class="form-control" id="departure">
+            <input type="date" class="form-control" id="departure" name="checkIn">
           </div>
           
           <div class="col-md-4">
             <label for="return" class="form-label">CheckOut Date</label>
-            <input type="date" class="form-control" id="return">
+            <input type="date" class="form-control" id="return" name="checkOut">
           </div>
 
           <div class="col-md-4">
             <label for="noOfDays" class="form-label">No of days</label>
-            <input type="number" class="form-control" id="noOfDays">
+            <input type="number" class="form-control" id="noOfDays" name="noOfDays">
           </div>
           
           <div class="d-grid gap-2 col-6 mx-auto">
@@ -104,6 +108,24 @@
   </div>
 </div>
 
+<table border="1" style="color: white;">
+  <thead>
+    <td><h3>Hotel ID</h3></td>
+    <td><h3>Hotel Name</h3></td>
+    <td><h3>Address</h3></td>
+    <td><h3>Customer Ratings</h3></td>
+    <td><h3>Charges/Day</h3></td>
+  </thead>
+  {% for row in rows %}
+  <tr>
+    <td><h3>{{ row['hotel_id'] }}</h3></td>
+    <td><h3>{{ row['hotel_name'] }}</h3></td>
+    <td><h3>{{ row['address'] }}</h3></td>
+    <td><h3>{{ row['cust_ratings'] }}</h3></td>
+    <td><h3>{{ row['charges'] }}</h3></td>
+  </tr>
+  {% endfor %}
+  </table>
 
 <style>
   .form-label {
