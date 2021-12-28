@@ -46,33 +46,64 @@
     </div>
 </nav>
 
-<!-- <h3>here it will display your booking details.</h3> -->
+<!-- here it will display your booking details.< -->
 
-<table border="1" style="color: white;">
-    <thead>
-        <td><h3>Flight Name</h3></td>
-        <td><h3>Timing</h3></td>
-        <td><h3>Duration</h3></td>
-        <td><h3>Stops</h3></td>
-        <td><h3>Trip Cost</h3></td>
-        <td><h3>Hotel ID</h3></td>
-        <td><h3>Hotel Name</h3></td>
-        <td><h3>Address</h3></td>
-        <td><h3>Customer Ratings</h3></td>
-    </thead>
+
+<form action="/bookings" method="post">
+<table>
+    <tr>
+    <!-- <thead> -->
+        <th>Booking ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Package Name</th>
+        <th>Place</th>
+        <th>No Of Days</th>
+        <th>Booking Time</th>
+        <th>Hotel Category</th>
+        <th>Room Type</th>
+        <th>No of Guests</th>
+        <th>Check In Date</th>
+        <th>Check Out Date</th>
+        <th>Trip Type</th>
+        <th>Class Type</th>
+        <th>Departure Date</th>
+        <th>Return Date</th>
+        <th>No.of passengers</th>
+        <th>Source</th>
+        <th>Destination</th>
+    <!-- </thead> -->
+</tr>
     {% for row in rows %}
     <tr>
-      <td><h3>{{ row['flight_name'] }}</h3></td>
-      <td><h3>{{ row['timing'] }}</h3></td>
-      <td><h3>{{ row['duration'] }}</h3></td>
-      <td><h3>{{ row['stops'] }}</h3></td>
-      <td><h3>{{ row['trip_cost'] }}</h3></td>
-      <td><h3>{{ row['hotel_id'] }}</h3></td>
-      <td><h3>{{ row['hotel_name'] }}</h3></td>
-      <td><h3>{{ row['address'] }}</h3></td>
-      <td><h3>{{ row['cust_ratings'] }}</h3></td>
+      <td>{{ row['id'] }}</td>
+      <td>{{ row['name'] }}</td>
+      <td>{{ row['email'] }}</td>
+      <td>{{ row['package_name'] }}</td>
+      <td>{{ row['place'] }}</td>
+      <td>{{ row['no_of_days'] }}</td>
+      <td>{{ row['booking_date'] }}</td>
+      <td>{{ row['category'] }}</td>
+      <td>{{ row['room_type'] }}</td>
+      <td>{{ row['no_of_guests'] }}</td>
+      <td>{{ row['check_in_date'] }}</td>
+      <td>{{ row['check_out_date'] }}</td>
+      <td>{{ row['trip_type'] }}</td>
+      <td>{{ row['class_type'] }}</td>
+      <td>{{ row['departure_d'] }}</td>
+      <td>{{ row['return_d'] }}</td>
+      <td>{{ row['passengers'] }}</td>
+      <td>{{ row['source'] }}</td>
+      <td>{{ row['destination'] }}</td>
     </tr>
     {% endfor %}
 </table>
+</form>
+
+<style>
+    tr, th, td {
+        border: 1px solid black;
+    }
+</style>
 
 {% endblock %}

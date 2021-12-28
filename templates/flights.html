@@ -67,7 +67,7 @@
 
             <div class="col-md-3">
               <label for="classtype" class="form-label">Class</label>
-              <select class="form-select" id="classtype" name="class_type">
+              <select class="form-select" id="classtype" name="class_type" required>
                 <option selected>Economy</option>
                 <option>Premium Economy</option>
                 <option>Business</option>
@@ -77,7 +77,7 @@
 
             <div class="col-md-3">
               <label for="departure" class="form-label">Departure</label>
-              <input type="date" class="form-control" id="departure" name="departure">
+              <input type="date" class="form-control" id="departure" name="departure" required>
             </div>
 
             <div class="col-md-3">
@@ -87,21 +87,21 @@
 
             <div class="col-md-4">
               <label for="passengers" class="form-label">No. of passengers</label>
-              <input type="number" class="form-control" id="passengers" name="passengers">
+              <input type="number" class="form-control" id="passengers" name="passengers" required>
             </div>
               
             <div class="col-md-4">
               <label for="source" class="form-label">Source</label>
-              <input type="text" class="form-control" id="source" name="source">
+              <input type="text" class="form-control" id="source" name="source" required>
             </div>
 
             <div class="col-md-4">
                 <label for="destination" class="form-label">Destination</label>
-                <input type="text" class="form-control" id="destination" name="destination">
+                <input type="text" class="form-control" id="destination" name="destination" required>
             </div>
-            
+
             <div class="d-grid gap-2 col-6 mx-auto">
-              <button type="submit" class="btn btn-primary">Search Flights</button>
+              <button type="submit" class="btn btn-primary">Book Flight</button>
             </div>
 
         </form>
@@ -110,24 +110,6 @@
   </div>
 </div>
 
-<table border="1" style="color: white;">
-  <thead>
-      <td><h3>Flight Name</h3></td>
-      <td><h3>Timing</h3></td>
-      <td><h3>Duration</h3></td>
-      <td><h3>Stops</h3></td>
-      <td><h3>Trip Cost</h3></td>
-  </thead>
-  {% for row in rows %}
-  <tr>
-    <td><h3>{{ row['flight_name'] }}</h3></td>
-    <td><h3>{{ row['timing'] }}</h3></td>
-    <td><h3>{{ row['duration'] }}</h3></td>
-    <td><h3>{{ row['stops'] }}</h3></td>
-    <td><h3>{{ row['trip_cost'] }}</h3></td>
-  </tr>
-  {% endfor %}
-</table>
 
 <style>
   .form-label {
