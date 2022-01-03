@@ -19,10 +19,10 @@
             <a class="nav-link" href="{{ url_for('destinations') }}">Destinations</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('flights') }}">Flights</a>
+            <a class="nav-link" href="{{ url_for('hotels') }}">Hotels</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('hotels') }}">Hotels</a>
+            <a class="nav-link" href="{{ url_for('flights') }}">Flights</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url_for('bookingdetails') }}">Bookings</a>
@@ -51,20 +51,76 @@
 
 <form action="/bookings" method="post">
 <table>
+    <thead>Bookings details</thead>
     <tr>
-    <!-- <thead> -->
         <th>Booking ID</th>
         <th>Name</th>
         <th>Email</th>
+        <th>Booking Date</th>
+        <th>Booking Time</th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+        <td>{{ row['id'] }}</td>
+        <td>{{ row['name'] }}</td>
+        <td>{{ row['email'] }}</td>
+        <td>{{ row['booking_date'] }}</td>
+        <td>{{ row['booking_time'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<!-- {% for row in rows %}
+    <b>Booking ID:</b> {{ row['id'] }} &nbsp;
+    <b>Name:</b> {{ row['name'] }} &nbsp;
+    <b>Email:</b> {{ row['email'] }} &nbsp;
+    <b>Booking Date:</b> {{ row['booking_date'] }} &nbsp;
+    <b>Booking Time:</b> {{ row['booking_time'] }}
+{% endfor %} -->
+
+<table>
+    <thead>Package Details</thead>
+    <tr>
+        <th>Booking ID</th>
         <th>Package Name</th>
         <th>Place</th>
         <th>No Of Days</th>
-        <th>Booking Time</th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+        <td>{{ row['id'] }}</td>
+        <td>{{ row['package_name'] }}</td>
+        <td>{{ row['place'] }}</td>
+        <td>{{ row['no_of_days'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<table>
+    <thead>Hotel Details</thead>
+    <tr>
+        <th>Booking ID</th>
         <th>Hotel Category</th>
         <th>Room Type</th>
         <th>No of Guests</th>
         <th>Check In Date</th>
         <th>Check Out Date</th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+        <td>{{ row['id'] }}</td>
+        <td>{{ row['category'] }}</td>
+        <td>{{ row['room_type'] }}</td>
+        <td>{{ row['no_of_guests'] }}</td>
+        <td>{{ row['check_in_date'] }}</td>
+        <td>{{ row['check_out_date'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+        
+<table>
+    <thead>Flight details</thead>
+    <tr>
+        <th>Booking ID</th>
         <th>Trip Type</th>
         <th>Class Type</th>
         <th>Departure Date</th>
@@ -72,29 +128,17 @@
         <th>No.of passengers</th>
         <th>Source</th>
         <th>Destination</th>
-    <!-- </thead> -->
-</tr>
+    </tr>
     {% for row in rows %}
     <tr>
-      <td>{{ row['id'] }}</td>
-      <td>{{ row['name'] }}</td>
-      <td>{{ row['email'] }}</td>
-      <td>{{ row['package_name'] }}</td>
-      <td>{{ row['place'] }}</td>
-      <td>{{ row['no_of_days'] }}</td>
-      <td>{{ row['booking_date'] }}</td>
-      <td>{{ row['category'] }}</td>
-      <td>{{ row['room_type'] }}</td>
-      <td>{{ row['no_of_guests'] }}</td>
-      <td>{{ row['check_in_date'] }}</td>
-      <td>{{ row['check_out_date'] }}</td>
-      <td>{{ row['trip_type'] }}</td>
-      <td>{{ row['class_type'] }}</td>
-      <td>{{ row['departure_d'] }}</td>
-      <td>{{ row['return_d'] }}</td>
-      <td>{{ row['passengers'] }}</td>
-      <td>{{ row['source'] }}</td>
-      <td>{{ row['destination'] }}</td>
+        <td>{{ row['id'] }}</td>
+        <td>{{ row['trip_type'] }}</td>
+        <td>{{ row['class_type'] }}</td>
+        <td>{{ row['departure_d'] }}</td>
+        <td>{{ row['return_d'] }}</td>
+        <td>{{ row['passengers'] }}</td>
+        <td>{{ row['source'] }}</td>
+        <td>{{ row['destination'] }}</td>
     </tr>
     {% endfor %}
 </table>

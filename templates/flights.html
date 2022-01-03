@@ -18,10 +18,10 @@
           <a class="nav-link" href="{{ url_for('destinations') }}">Destinations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('flights') }}">Flights</a>
+          <a class="nav-link" href="{{ url_for('hotels') }}">Hotels</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('hotels') }}">Hotels</a>
+          <a class="nav-link" href="{{ url_for('flights') }}">Flights</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('bookingdetails') }}">Bookings</a>
@@ -56,6 +56,17 @@
             {% if msg %}
             <div><h4 style="text-align: center; color: white;">{{ msg }}</h4></div>
             {% endif %}
+
+            <div class="col-md-12">
+              <label for="cost" class="form-label">Choose Your Starting Budget Range:</label>
+              <select name="cost" class="form-select" id="cost" name="cost">
+              <option value="90000">90000</option>
+              <option value="95000">95000</option>
+              <option value="100000">100000</option>
+              <option value="105000">105000</option>
+              <option value="Above 110000 ">Above 110000 </option>
+              </select>
+            </div>
 
             <div class="col-md-3">
               <label for="trip" class="form-label" >Trip Type</label>
