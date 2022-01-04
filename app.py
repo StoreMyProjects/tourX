@@ -239,14 +239,14 @@ def flights():
         passengers = request.form.get('passengers')
         source = request.form.get('source')
         destination = request.form.get('destination')
-        # try:
-        with sqlite3.connect('tour.db') as db:
-            db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, passengers, source, destination, session['username']))
-            db.commit()
-        return redirect(url_for('payment'))
-        # except:
-        #     msg = f"No flights available to {destination} on {departure_d}. Please try another date."
-        #     return render_template('flights.html', msg= msg)
+        try:
+            with sqlite3.connect('tour.db') as db:
+                db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, passengers, source, destination, session['username']))
+                db.commit()
+            return redirect(url_for('payment'))
+        except:
+            msg = f"No flights available to {destination} on {departure_d}. Please try another date."
+            return render_template('flights.html', msg= msg)
     return render_template("flights.html")
 
 @app.route('/payment', methods = ['GET', 'POST'])
@@ -293,12 +293,12 @@ def payment():
                 passengers = k[7]
                 source = k[8]
                 destination = k[9]
-            # try:
+            try:
                 db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, session['username']))
                 db.commit()
-            # except:
-            #     msg = "Something went wrong while booking!"
-            #     return render_template("payment.html", msg = msg)
+            except:
+                msg = "Something went wrong while booking!"
+                return render_template("payment.html", msg = msg)
             total_amount = int(dest_pack) + int(hotel_cost) + int(flight_cost)
         return render_template("payment.html", total_amount = total_amount)
     if request.method == "POST":
