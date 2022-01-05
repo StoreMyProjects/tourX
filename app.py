@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 from flask_session import Session
+from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import datetime
 
@@ -21,29 +22,6 @@ def index():
     return render_template("home.html")
 
 
-@app.route('/login', methods=["GET", 'POST'])
-def login():
-    if request.method == "POST":
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        user = db.execute('select username, password, name, email from users where username = ? and password = ?', (username, password))
-        rows = user.fetchall()
-        for i in rows:
-            if username == i[0] and password == i[1]:
-                name = i[2]
-                email = i[3]
-                session["LoggedIn"] = True
-                session['name'] = name
-                session['username'] = username
-                session['email'] = email
-                return redirect(url_for("profile"))
-        else:
-            msg = "User not found! Please enter valid username or password!"
-            return render_template("login.html", msg = msg)
-    return render_template("login.html")
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
@@ -57,16 +35,45 @@ def register():
             return render_template("register.html", error = error)
         else:
             try:
-                db.execute('insert into users values(?,?,?,?)', (name, email, username, password))
+                passwd = generate_password_hash(password)
+                db.execute('insert into users values(?,?,?,?)', (name, email, username, passwd))
                 db.commit()
                 msg = "you are registered successfully!"
-                return render_template("register.html", msg = msg)
+                return render_template("login.html", msg = msg)
             except:
-                msg = "something wrong happend while registering! Please try Again!"
-            finally:
                 db.rollback()
-                return render_template("register.html" ,msg = msg)
+                error = "Found user with same username! Please try another username or go for login!"
+                return render_template("register.html", error = error)
     return render_template("register.html")
+
+
+@app.route('/login', methods=["GET", 'POST'])
+def login():
+    if request.method == "POST":
+        username = request.form.get('username')
+        passwd = request.form.get('password')
+        
+        user = db.execute("select * from users where username = ?", (username,))
+        rows = user.fetchall()
+        for x in rows:
+            # print(x)
+            if username == x[2] and check_password_hash(x[3], passwd):
+                # print("user found")
+                name = x[0]
+                email = x[1]
+                session["LoggedIn"] = True
+                session['name'] = name
+                session['username'] = username
+                session['email'] = email
+                return redirect(url_for("profile"))
+            else:
+                # print("user not found")
+                error = "User not found! Please enter valid username or password!"
+                return render_template("login.html", error = error)
+        else:
+            error = "User not found! Please enter valid username or password!"
+            return render_template("login.html", error = error)
+    return render_template("login.html")
 
 
 @app.route('/destinations', methods=['GET', 'POST'])
@@ -245,7 +252,8 @@ def flights():
                 db.commit()
             return redirect(url_for('payment'))
         except:
-            msg = f"No flights available to {destination} on {departure_d}. Please try another date."
+            msg = "Something went wrong while booking flight!"
+            # msg = f"No flights available to {destination} on {departure_d}. Please try another date."
             return render_template('flights.html', msg= msg)
     return render_template("flights.html")
 
@@ -253,11 +261,11 @@ def flights():
 def payment():
     if request.method == "GET":
         with sqlite3.connect('tour.db') as db:
-            dest_details = db.execute("select estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+            dest_details = db.execute("select estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
             dest_row = dest_details.fetchall()
-            hotel_details = db.execute("select cost from hotels inner join users on users.username=hotels.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+            hotel_details = db.execute("select cost from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
             hotel_row = hotel_details.fetchall()
-            flight_details = db.execute("select flight_cost from flights inner join users on users.username=flights.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+            flight_details = db.execute("select flight_cost from flights inner join users on users.username=flights.username and users.username = ?", (session['username'],))
             flight_row = flight_details.fetchall()
             for i in dest_row:
                 dest_pack = i[0]
@@ -266,11 +274,11 @@ def payment():
             for k in flight_row:
                 flight_cost = k[0]
         with sqlite3.connect('tour.db') as db:
-            dest_details = db.execute("select * from destinations inner join users on users.username=destinations.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+            dest_details = db.execute("select * from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
             dest_row = dest_details.fetchall()
-            hotel_details = db.execute("select * from hotels inner join users on users.username=hotels.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+            hotel_details = db.execute("select * from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
             hotel_row = hotel_details.fetchall()
-            flight_details = db.execute("select * from flights inner join users on users.username=flights.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+            flight_details = db.execute("select * from flights inner join users on users.username=flights.username and users.username = ?", (session['username'],))
             flight_row = flight_details.fetchall()
             for i in dest_row:
                 package_name = i[2]
@@ -290,7 +298,7 @@ def payment():
                 class_type = k[4]
                 departure_d = k[5]
                 return_d = k[6]
-                passengers = k[7]
+                passengers = no_of_guests
                 source = k[8]
                 destination = k[9]
             try:
@@ -299,7 +307,7 @@ def payment():
             except:
                 msg = "Something went wrong while booking!"
                 return render_template("payment.html", msg = msg)
-            total_amount = int(dest_pack) + int(hotel_cost) + int(flight_cost)
+            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
         return render_template("payment.html", total_amount = total_amount)
     if request.method == "POST":
         return redirect(url_for('bill'))
@@ -313,7 +321,7 @@ def bookingdetails():
             try:
                 db.row_factory = sqlite3.Row
                 cur = db.cursor()
-                cur.execute("select * from bookings inner join users on users.username=bookings.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+                cur.execute("select * from bookings inner join users on users.username=bookings.username and users.username = ?", (session['username'],))
                 rows = cur.fetchall()
                 for row in rows:
                     print(row)
@@ -328,26 +336,28 @@ def bookingdetails():
 def bill():
     if request.method == 'GET':
         with sqlite3.connect('tour.db') as db:
-                dest_details = db.execute("select package_name, estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+                dest_details = db.execute("select package_name, estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
                 dest_row = dest_details.fetchall()
-                hotel_details = db.execute("select cost from hotels inner join users on users.username=hotels.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+                hotel_details = db.execute("select cost, no_of_guests from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
                 hotel_row = hotel_details.fetchall()
-                flight_details = db.execute("select flight_cost from flights inner join users on users.username=flights.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+                flight_details = db.execute("select flight_cost, passengers from flights inner join users on users.username=flights.username and users.username = ?", (session['username'],))
                 flight_row = flight_details.fetchall()
-                booking_details = db.execute("select id, booking_date, booking_time from bookings inner join users on users.username=bookings.username and users.username = ? and users.email = ?", (session['username'], session['email']))
+                booking_details = db.execute("select id, booking_date, booking_time from bookings inner join users on users.username=bookings.username and users.username = ?", (session['username'],))
                 booking_row = booking_details.fetchall()
                 for i in dest_row:
                     package_name = i[0]
                     dest_pack = i[1]
                 for j in hotel_row:
                     hotel_cost = j[0]
+                    no_of_guests = j[1]
                 for k in flight_row:
                     flight_cost = k[0]
+                    passengers = k[1]
                 for b in booking_row:
                     booking_id = b[0]
                     booking_date = b[1]
                     booking_time = b[2]
-                total_amount = int(dest_pack) + int(hotel_cost) + int(flight_cost)
+                total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
         return render_template("billing.html", total_amount=total_amount, package_name=package_name, dest_pack=dest_pack, hotel_cost=hotel_cost, flight_cost=flight_cost, booking_id=booking_id, booking_date=booking_date, booking_time=booking_time)
     return render_template("home.html")
 

@@ -8,7 +8,11 @@
           <div class="col-sm-9 p-5">
             <h1 style="text-align: center; color: brown;">TourX</h1>
             {% if msg %}
-            <div><h4 style="text-align: center; color: red;">{{ msg }}</h4></div>
+              <div><h4 style="text-align: center; color:green;">{{ msg }}</h4></div>
+            {% endif %}
+
+            {% if error %}
+              <div><h4 style="text-align: center; color: red;">{{ error }}</h4></div>
             {% endif %}
 
             <form class="card p-5" action="/login" method="post" style="background: linear-gradient(150deg,#9586eb, #ca8aca);"">
