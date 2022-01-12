@@ -3,32 +3,41 @@
 {% block body %}
 
 <div style="height:100vh ; background: linear-gradient(150deg,#6147f1, #cc33cc);">
-<div class="container-sm">
-    <div class="row justify-content-center">
-        <div class="col-sm-9 p-5">
-          {% if msg %}
-          <div><h4 style="text-align: center; color: red;">{{ msg }}</h4></div>
-          {% endif %}
+  <div class="container-sm">
+      <div class="row justify-content-center">
+          <div class="col-sm-9 p-5">
+            <h1 style="text-align: center; color: brown;">TourX</h1>
+            {% if msg %}
+              <div><h4 style="text-align: center; color:green;">{{ msg }}</h4></div>
+            {% endif %}
 
-          <form class="card p-5" action="/login" method="post" style="background: linear-gradient(150deg,#9586eb, #ca8aca);"">
-            <h2 style="text-align: center; color: blueviolet;">Sign In</h2>
-            <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-            <label for="userpassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="userpassword" name="password" required>
-            </div>
-            <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-center">
-              <input class="btn btn-primary" type="submit" value="Login">
-            </div>
-          </form>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{{ url_for('register') }}">New around here? Sign up</a>
+            {% if error %}
+              <div><h4 style="text-align: center; color: red;">{{ error }}</h4></div>
+            {% endif %}
 
-    </div>
+            <form class="card p-5" action="/login" method="post" style="background: linear-gradient(150deg,#9586eb, #ca8aca);"">
+              <h2 style="text-align: center; color: blueviolet;">Sign In</h2>
+              <div class="mb-3">
+                Username <input type="text" class="form-control" id="username" name="username" required>
+              </div>
+              <div class="mb-3">
+                Password <input type="password" class="form-control" id="userpassword" name="password" required>
+              </div>
+              <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-center">
+                <input class="btn btn-primary" type="submit" value="Login">
+              </div>
+            </form>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for('register') }}">New around here? Sign up</a>
+      </div>
+  </div>
 </div>
-</div>
+<footer class="page-footer font-small blue">
 
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2022 Copyright TourX
+  </div>
+  <!-- Copyright -->
+
+</footer>
 {% endblock %}
