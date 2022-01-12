@@ -32,13 +32,13 @@
         </li>
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="{{ url_for('profile') }}" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa fa-user"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <!-- <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
               <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
               <li><a class="dropdown-item" href="{{ url_for('login') }}" >Login</a></li>
-            </ul>
+            </ul> -->
           </li>
         </ul>
       </ul>
@@ -48,15 +48,16 @@
 
 <div style="height: 100vh; background-color: rgb(253, 253, 113);">
   <div class="container-sm">
+    <h1 style="color: blue;">Your Profile</h1>
       <div class="row justify-content-center">
-          <div class="col-sm-9 p-5">
+          <!-- <div class="col-sm-9 p-5"> -->
             <p><h3>Welcome, {{ session.name }}</h3></p>
 
             <p><h3>Username:  {{ session.username }}</h3></p>
             <p><h3>Email:  {{ session.email }}</h3></p>
 
             <h4><a href="/logout" >Log Out</a></h4>
-          </div>
+          <!-- </div> -->
       </div>
   </div>
 </div>
