@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, session
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
+import re
 import datetime
 
 app = Flask(__name__)
@@ -30,7 +31,15 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
         confirm = request.form.get('confirm')
-        if password != confirm:
+
+        pass_re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#])[A-Za-z\d@$#]{6,12}$"
+        patt = re.compile(pass_re)
+        matc = re.search(patt, password)
+
+        if not matc:
+            error = "Please enter a Valid Password"
+            return render_template("register.html", error = error)
+        elif password != confirm:
             error = "password and confirm password do not match."
             return render_template("register.html", error = error)
         else:
