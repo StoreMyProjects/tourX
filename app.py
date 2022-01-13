@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, session
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
+import re
 import datetime
 
 app = Flask(__name__)
@@ -30,7 +31,15 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
         confirm = request.form.get('confirm')
-        if password != confirm:
+
+        pass_re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#])[A-Za-z\d@$#]{6,12}$"
+        patt = re.compile(pass_re)
+        matc = re.search(patt, password)
+
+        if not matc:
+            error = "Please enter a Valid Password"
+            return render_template("register.html", error = error)
+        elif password != confirm:
             error = "password and confirm password do not match."
             return render_template("register.html", error = error)
         else:
@@ -301,18 +310,20 @@ def payment():
                 passengers = no_of_guests
                 source = k[8]
                 destination = k[9]
+
+            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
+            
             try:
-                db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, session['username']))
+                db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, total_amount, session['username']))
                 db.commit()
             except:
                 msg = "Something went wrong while booking!"
                 return render_template("payment.html", msg = msg)
-            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
-        return render_template("payment.html", total_amount = total_amount)
-    if request.method == "POST":
-        return redirect(url_for('bill'))
 
-    return render_template("payment.html")
+        return render_template("payment.html", total_amount = total_amount)
+
+    return redirect(url_for('bill'))
+
 
 @app.route('/bookings', methods=['GET', 'POST'])
 def bookingdetails():
@@ -376,11 +387,6 @@ def logout():
 @app.route('/about')
 def about():
     return render_template("about.html")
-
-
-@app.route('/invoice')
-def invoice():
-    return render_template("invoice.html")
 
 
 if __name__ == "__main__":

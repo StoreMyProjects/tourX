@@ -16,7 +16,7 @@
             {% endif %}
 
             <form class="card p-5" action="/login" method="post" style="background: linear-gradient(150deg,#9586eb, #ca8aca);"">
-              <h2 style="text-align: center; color: blueviolet;">Sign In</h2>
+              <h2 style="text-align: center; color: whitesmoke;">Sign In</h2>
               <div class="mb-3">
                 Username <input type="text" class="form-control" id="username" name="username" required>
               </div>
@@ -32,12 +32,44 @@
       </div>
   </div>
 </div>
-<footer class="page-footer font-small blue">
 
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2022 Copyright TourX
+<footer class="bg-dark text-center text-white">
+
+  <div class="container p-4 pb-0">
+
+    <section class="mb-4">
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998;" href="#!" role="button">
+        <i class="fa fa-facebook-f"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee;" href="#!" role="button">
+        <i class="fa fa-twitter"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #db4437;" href="#!" role="button">
+        <i class="fa fa-google"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #bc2a8d;" href="#!" role="button">
+        <i class="fa fa-instagram"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca;" href="#!" role="button">
+        <i class="fa fa-linkedin"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #333333;" href="#!" role="button">
+        <i class="fa fa-github"></i>
+      </a>
+    </section>
+
   </div>
-  <!-- Copyright -->
+
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2022 Copyright:
+    <a class="text-white" href="https://tourxbootstrap.com/">TourX.com</a>
+  </div>
 
 </footer>
+
 {% endblock %}
