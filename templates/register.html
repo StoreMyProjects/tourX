@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<div style="height:150vh ; background: linear-gradient(150deg,#6147f1, #cc33cc);">
+<div style="height:130vh ; background: linear-gradient(150deg,#6147f1, #cc33cc);">
     <div class="container-sm h-100">
         <div class="row justify-content-center">
             <div class="col-sm-9 p-5">
@@ -17,7 +17,7 @@
                 {% endif %}
                 
                 <form  class="card p-5" action="/register" method="post" style="background: linear-gradient(150deg,#9586eb, #ca8aca);">
-                    <h2 style="text-align: center; color: blueviolet;">Create an account</h2>
+                    <h2 style="text-align: center; color: whitesmoke;">Create an account</h2>
                     <div class="mb-3">
                         Full Name <input id="name" type="text" class="form-control" name="name" required>
                     </div>
@@ -34,7 +34,6 @@
                     </div>
                     <div class="mb-3">
                         Confirm Password <input id="pass" type="password" class="form-control" aria-describedby="passwordHelpBlock1" name="confirm" required>
-                        <div id="passwordHelpBlock1" class="form-text">Re-enter password</div>
                     </div>
                     <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-center">
                         <input class="btn btn-primary" type="submit" value="Register">
@@ -46,5 +45,44 @@
         </div>
     </div>
 </div>
+
+<footer class="bg-dark text-center text-white">
+
+    <div class="container p-4 pb-0">
+
+      <section class="mb-4">
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998;" href="#!" role="button">
+          <i class="fa fa-facebook-f"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee;" href="#!" role="button">
+          <i class="fa fa-twitter"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #db4437;" href="#!" role="button">
+          <i class="fa fa-google"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #bc2a8d;" href="#!" role="button">
+          <i class="fa fa-instagram"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca;" href="#!" role="button">
+          <i class="fa fa-linkedin"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #333333;" href="#!" role="button">
+          <i class="fa fa-github"></i>
+        </a>
+      </section>
+
+    </div>
+
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2022 Copyright:
+      <a class="text-white" href="https://tourxbootstrap.com/">TourX.com</a>
+    </div>
+
+  </footer>
 
 {% endblock %}

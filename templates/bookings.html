@@ -48,101 +48,120 @@
 
 <!-- here it will display your booking details.< -->
 
+<section class="bookings" style="height: 70vh;">
+    <form action="/bookings" method="post">
+        <table>
+            <thead>Package Details</thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Booking Date</th>
+                <th>Booking Time</th>
+                <th>Package Name</th>
+                <th>Place</th>
+                <th>No Of Days</th>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row['id'] }}</td>
+                <td>{{ row['booking_date'] }}</td>
+                <td>{{ row['booking_time'] }}</td>
+                <td>{{ row['package_name'] }}</td>
+                <td>{{ row['place'] }}</td>
+                <td>{{ row['no_of_days'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-<form action="/bookings" method="post">
-<table>
-    <thead>Bookings details</thead>
-    <tr>
-        <th>Booking ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Booking Date</th>
-        <th>Booking Time</th>
-    </tr>
-    {% for row in rows %}
-    <tr>
-        <td>{{ row['id'] }}</td>
-        <td>{{ row['name'] }}</td>
-        <td>{{ row['email'] }}</td>
-        <td>{{ row['booking_date'] }}</td>
-        <td>{{ row['booking_time'] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<!-- {% for row in rows %}
-    <b>Booking ID:</b> {{ row['id'] }} &nbsp;
-    <b>Name:</b> {{ row['name'] }} &nbsp;
-    <b>Email:</b> {{ row['email'] }} &nbsp;
-    <b>Booking Date:</b> {{ row['booking_date'] }} &nbsp;
-    <b>Booking Time:</b> {{ row['booking_time'] }}
-{% endfor %} -->
+        <table>
+            <thead>Hotel Details</thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Hotel Category</th>
+                <th>Room Type</th>
+                <th>No of Guests</th>
+                <th>Check In Date</th>
+                <th>Check Out Date</th>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row['id'] }}</td>
+                <td>{{ row['category'] }}</td>
+                <td>{{ row['room_type'] }}</td>
+                <td>{{ row['no_of_guests'] }}</td>
+                <td>{{ row['check_in_date'] }}</td>
+                <td>{{ row['check_out_date'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+                
+        <table>
+            <thead>Flight details</thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Trip Type</th>
+                <th>Class Type</th>
+                <th>Departure Date</th>
+                <th>Return Date</th>
+                <th>No.of passengers</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Total Cost</th>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row['id'] }}</td>
+                <td>{{ row['trip_type'] }}</td>
+                <td>{{ row['class_type'] }}</td>
+                <td>{{ row['departure_d'] }}</td>
+                <td>{{ row['return_d'] }}</td>
+                <td>{{ row['passengers'] }}</td>
+                <td>{{ row['source'] }}</td>
+                <td>{{ row['destination'] }}</td>
+                <td>{{ row['total_cost'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</section>
 
-<table>
-    <thead>Package Details</thead>
-    <tr>
-        <th>Booking ID</th>
-        <th>Package Name</th>
-        <th>Place</th>
-        <th>No Of Days</th>
-    </tr>
-    {% for row in rows %}
-    <tr>
-        <td>{{ row['id'] }}</td>
-        <td>{{ row['package_name'] }}</td>
-        <td>{{ row['place'] }}</td>
-        <td>{{ row['no_of_days'] }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<footer class="bg-dark text-center text-white">
 
-<table>
-    <thead>Hotel Details</thead>
-    <tr>
-        <th>Booking ID</th>
-        <th>Hotel Category</th>
-        <th>Room Type</th>
-        <th>No of Guests</th>
-        <th>Check In Date</th>
-        <th>Check Out Date</th>
-    </tr>
-    {% for row in rows %}
-    <tr>
-        <td>{{ row['id'] }}</td>
-        <td>{{ row['category'] }}</td>
-        <td>{{ row['room_type'] }}</td>
-        <td>{{ row['no_of_guests'] }}</td>
-        <td>{{ row['check_in_date'] }}</td>
-        <td>{{ row['check_out_date'] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-        
-<table>
-    <thead>Flight details</thead>
-    <tr>
-        <th>Booking ID</th>
-        <th>Trip Type</th>
-        <th>Class Type</th>
-        <th>Departure Date</th>
-        <th>Return Date</th>
-        <th>No.of passengers</th>
-        <th>Source</th>
-        <th>Destination</th>
-    </tr>
-    {% for row in rows %}
-    <tr>
-        <td>{{ row['id'] }}</td>
-        <td>{{ row['trip_type'] }}</td>
-        <td>{{ row['class_type'] }}</td>
-        <td>{{ row['departure_d'] }}</td>
-        <td>{{ row['return_d'] }}</td>
-        <td>{{ row['passengers'] }}</td>
-        <td>{{ row['source'] }}</td>
-        <td>{{ row['destination'] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-</form>
+    <div class="container p-4 pb-0">
+
+      <section class="mb-4">
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998;" href="#!" role="button">
+          <i class="fa fa-facebook-f"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee;" href="#!" role="button">
+          <i class="fa fa-twitter"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #db4437;" href="#!" role="button">
+          <i class="fa fa-google"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #bc2a8d;" href="#!" role="button">
+          <i class="fa fa-instagram"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca;" href="#!" role="button">
+          <i class="fa fa-linkedin"></i>
+        </a>
+
+        <a class="btn btn-primary btn-floating m-1" style="background-color: #333333;" href="#!" role="button">
+          <i class="fa fa-github"></i>
+        </a>
+      </section>
+
+    </div>
+
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2022 Copyright:
+      <a class="text-white" href="https://tourxbootstrap.com/">TourX.com</a>
+    </div>
+
+  </footer>
 
 <style>
     tr, th, td {

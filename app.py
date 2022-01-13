@@ -301,18 +301,20 @@ def payment():
                 passengers = no_of_guests
                 source = k[8]
                 destination = k[9]
+
+            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
+            
             try:
-                db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, session['username']))
+                db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, total_amount, session['username']))
                 db.commit()
             except:
                 msg = "Something went wrong while booking!"
                 return render_template("payment.html", msg = msg)
-            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
-        return render_template("payment.html", total_amount = total_amount)
-    if request.method == "POST":
-        return redirect(url_for('bill'))
 
-    return render_template("payment.html")
+        return render_template("payment.html", total_amount = total_amount)
+
+    return redirect(url_for('bill'))
+
 
 @app.route('/bookings', methods=['GET', 'POST'])
 def bookingdetails():
