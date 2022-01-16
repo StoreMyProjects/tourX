@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, url_for, redirect, session
+from flask import Flask, render_template, request, url_for, redirect, session, make_response
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
-import sqlite3
-import datetime
+import sqlite3, pdfkit
+import re, datetime
 
 app = Flask(__name__)
 
@@ -30,8 +30,22 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
         confirm = request.form.get('confirm')
-        if password != confirm:
-            error = "password and confirm password do not match."
+
+        email_re = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"
+        mat = re.search(email_re, email)
+
+        pass_re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#])[A-Za-z\d@$#]{6,12}$"
+        patt = re.compile(pass_re)
+        matc = re.search(patt, password)
+
+        if not mat:
+            error = "Please enter a Valid Email!"
+            return render_template("register.html", error = error)
+        elif not matc:
+            error = "Please enter a Valid Password!"
+            return render_template("register.html", error = error)
+        elif password != confirm:
+            error = "password and confirm password don't match!"
             return render_template("register.html", error = error)
         else:
             try:
@@ -221,10 +235,10 @@ def hotels():
         no_of_guests = request.form.get('noOfGuests')
         check_in_date = request.form.get('checkIn')
         check_out_date = request.form.get('checkOut')
-        no_of_days = request.form.get('noOfDays')
+        # no_of_days = request.form.get('noOfDays')
         try:
             with sqlite3.connect('tour.db') as db:
-                db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, no_of_guests, check_in_date, check_out_date, no_of_days, session["username"]))
+                db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, no_of_guests, check_in_date, check_out_date, session["username"]))
                 db.commit()
             msg = "hotel room booked successfully!"
             return render_template('flights.html', msg = msg)
@@ -291,7 +305,6 @@ def payment():
                 no_of_guests = j[5]
                 check_in_date = j[6]
                 check_out_date = j[7]
-                no_of_days = j[8]
 
             for k in flight_row:
                 trip_type = k[3]
@@ -301,18 +314,25 @@ def payment():
                 passengers = no_of_guests
                 source = k[8]
                 destination = k[9]
+            
+            if trip_type == "Round Trip":
+                flight_cost *= 2
+            else:
+                flight_cost = flight_cost
+
+            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
+            
             try:
-                db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, session['username']))
+                db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, total_amount, session['username']))
                 db.commit()
             except:
                 msg = "Something went wrong while booking!"
                 return render_template("payment.html", msg = msg)
-            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
-        return render_template("payment.html", total_amount = total_amount)
-    if request.method == "POST":
-        return redirect(url_for('bill'))
 
-    return render_template("payment.html")
+        return render_template("payment.html", total_amount = total_amount)
+
+    return redirect(url_for('bill'))
+
 
 @app.route('/bookings', methods=['GET', 'POST'])
 def bookingdetails():
@@ -340,7 +360,7 @@ def bill():
                 dest_row = dest_details.fetchall()
                 hotel_details = db.execute("select cost, no_of_guests from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
                 hotel_row = hotel_details.fetchall()
-                flight_details = db.execute("select flight_cost, passengers from flights inner join users on users.username=flights.username and users.username = ?", (session['username'],))
+                flight_details = db.execute("select flight_cost, passengers, trip_type from flights inner join users on users.username=flights.username and users.username = ?", (session['username'],))
                 flight_row = flight_details.fetchall()
                 booking_details = db.execute("select id, booking_date, booking_time from bookings inner join users on users.username=bookings.username and users.username = ?", (session['username'],))
                 booking_row = booking_details.fetchall()
@@ -353,13 +373,29 @@ def bill():
                 for k in flight_row:
                     flight_cost = k[0]
                     passengers = k[1]
+                    trip_type = k[2]
                 for b in booking_row:
                     booking_id = b[0]
                     booking_date = b[1]
                     booking_time = b[2]
+
+                if trip_type == "Round Trip":
+                    flight_cost *= 2
+                else:
+                    flight_cost = flight_cost
+
                 total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
         return render_template("billing.html", total_amount=total_amount, package_name=package_name, dest_pack=dest_pack, hotel_cost=hotel_cost, flight_cost=flight_cost, booking_id=booking_id, booking_date=booking_date, booking_time=booking_time)
     return render_template("home.html")
+
+
+@app.route('/pdf')
+def pdf():
+    pdf = pdfkit.from_string(render_template("billing.html"), False)
+    response = make_response(pdf)
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = "inline; filename=bill.pdf"
+    return response
 
 
 @app.route('/profile')

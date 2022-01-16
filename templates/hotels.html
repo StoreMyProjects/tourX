@@ -68,7 +68,7 @@
             </select>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-6">
             <label for="inputState" class="form-label">Hotel Category</label>
             <select id="inputState" class="form-select" name="category" required>
               <option selected>--Select--</option>
@@ -78,7 +78,7 @@
             </select>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-6">
             <label for="inputState2" class="form-label">Room Type</label>
             <select id="inputState2" class="form-select" name="room_type" required>
               <option selected>--Select--</option>
@@ -104,10 +104,10 @@
             <input type="date" class="form-control" id="return" name="checkOut">
           </div>
 
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
             <label for="noOfDays" class="form-label">No of days</label>
             <input type="number" class="form-control" id="noOfDays" name="noOfDays">
-          </div>
+          </div> -->
           
           <div class="d-grid gap-2 col-6 mx-auto">
             <button type="submit" class="btn btn-primary">Book Hotel Room</button>
@@ -115,26 +115,53 @@
 
         </form>
       </div>
-      
     </div>
   </div>
-  
 </div>
 
+<footer class="bg-dark text-center text-white">
+
+  <div class="container p-4 pb-0">
+
+    <section class="mb-4">
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998;" href="#!" role="button">
+        <i class="fa fa-facebook-f"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee;" href="#!" role="button">
+        <i class="fa fa-twitter"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #db4437;" href="#!" role="button">
+        <i class="fa fa-google"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #bc2a8d;" href="#!" role="button">
+        <i class="fa fa-instagram"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca;" href="#!" role="button">
+        <i class="fa fa-linkedin"></i>
+      </a>
+
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #333333;" href="#!" role="button">
+        <i class="fa fa-github"></i>
+      </a>
+    </section>
+
+  </div>
+
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2022 Copyright:
+    <a class="text-white" href="https://tourxbootstrap.com/">TourX.com</a>
+  </div>
+
+</footer>
 
 <style>
   .form-label {
     color: white;
   }
 </style>
-
-<footer class="page-footer font-small blue">
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2022 Copyright TourX
-  </div>
-  <!-- Copyright -->
-
-</footer>
 
 {% endblock %}
