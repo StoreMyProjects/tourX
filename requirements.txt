@@ -1,7 +1,0 @@
-#required modules
-#install using pip
-pdfkit
-sqlite3
-
-# install from github, apt
-wkhtmltopdf
