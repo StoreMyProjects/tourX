@@ -155,11 +155,15 @@
     </table>
 
     <div class="print">
-        <a href="{{ url_for('index') }}">
+        <a href="{{ url_for('pdf') }}">
             <i class="fa fa-print"></i>
             Print this receipt
         </a>
     </div>
+    <div align="right" class="bookings">
+        <a href="{{ url_for('bookingdetails') }}">Check your booking details</a>
+    </div>
+    
 </div>
 
 {% endblock %}
