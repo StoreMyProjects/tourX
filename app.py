@@ -34,7 +34,7 @@ def register():
         email_re = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"
         mat = re.search(email_re, email)
 
-        pass_re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#])[A-Za-z\d@$#]{6,12}$"
+        pass_re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#&!])[A-Za-z\d@$#&!]{6,12}$"
         patt = re.compile(pass_re)
         matc = re.search(patt, password)
 
@@ -393,7 +393,39 @@ def bill():
 
 @app.route('/pdf')
 def pdf():
-    pdf = pdfkit.from_string(render_template("billing.html"), False)
+    with sqlite3.connect('tour.db') as db:
+        dest_details = db.execute("select package_name, estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
+        dest_row = dest_details.fetchall()
+        hotel_details = db.execute("select cost, no_of_guests from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
+        hotel_row = hotel_details.fetchall()
+        flight_details = db.execute("select flight_cost, passengers, trip_type from flights inner join users on users.username=flights.username and users.username = ?", (session['username'],))
+        flight_row = flight_details.fetchall()
+        booking_details = db.execute("select id, booking_date, booking_time from bookings inner join users on users.username=bookings.username and users.username = ?", (session['username'],))
+        booking_row = booking_details.fetchall()
+        for i in dest_row:
+            package_name = i[0]
+            dest_pack = i[1]
+        for j in hotel_row:
+            hotel_cost = j[0]
+            no_of_guests = j[1]
+        for k in flight_row:
+            flight_cost = k[0]
+            passengers = k[1]
+            trip_type = k[2]
+        for b in booking_row:
+            booking_id = b[0]
+            booking_date = b[1]
+            booking_time = b[2]
+            
+        if trip_type == "Round Trip":
+            flight_cost *= 2
+        else:
+            flight_cost = flight_cost
+        
+    total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
+    
+    html = render_template("billing.html", package_name=package_name, booking_id=booking_id, booking_date=booking_date, booking_time=booking_time, total_amount=total_amount, flight_cost=flight_cost, hotel_cost=hotel_cost, dest_pack=dest_pack)
+    pdf = pdfkit.from_string(html, False)
     response = make_response(pdf)
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = "inline; filename=bill.pdf"
