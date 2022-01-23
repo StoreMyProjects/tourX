@@ -239,16 +239,35 @@ def hotels():
         check_in_date = request.form.get('checkIn')
         check_out_date = request.form.get('checkOut')
         # no_of_days = request.form.get('noOfDays')
-        try:
-            with sqlite3.connect('tour.db') as db:
-                db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, no_of_guests, check_in_date, check_out_date, session["username"]))
-                db.commit()
-            msg = "hotel room booked successfully!"
-            return render_template('flights.html', msg = msg)
-        except:
-            msg = "Something went wrong while booking hotel room!"
-            # msg = "No available hotel rooms in this category ! Please try with another category!"
-            return render_template("hotels.html", msg = msg)
+
+        x = tuple(check_in_date.split('-'))
+        y = tuple(check_out_date.split('-'))
+
+        year = int(x[0])
+        month = int(x[1])
+        day = int(x[2])
+
+        year1 = int(y[0])
+        month1 = int(y[1])
+        day1 = int(y[2])
+        
+        cid = datetime.date(year,month,day)
+        cod = datetime.date(year1,month1,day1)
+
+        if cid < cod:
+            try:
+                with sqlite3.connect('tour.db') as db:
+                    db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, no_of_guests, check_in_date, check_out_date, session["username"]))
+                    db.commit()
+                msg = "hotel room booked successfully!"
+                return render_template('flights.html', msg = msg)
+            except:
+                msg = "Something went wrong while booking hotel room!"
+                # msg = "No available hotel rooms in this category ! Please try with another category!"
+                return render_template("hotels.html", msg = msg)
+        else:
+            msg = "Check-in date must be before Check-out date!"
+            return render_template("hotels.html", msg=msg)
     return render_template("hotels.html")
 
 
@@ -263,15 +282,45 @@ def flights():
         passengers = request.form.get('passengers')
         source = request.form.get('source')
         destination = request.form.get('destination')
-        try:
-            with sqlite3.connect('tour.db') as db:
-                db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, passengers, source, destination, session['username']))
-                db.commit()
-            return redirect(url_for('payment'))
-        except:
-            msg = "Something went wrong while booking flight!"
-            # msg = f"No flights available to {destination} on {departure_d}. Please try another date."
-            return render_template('flights.html', msg= msg)
+
+        if trip_type == "Round Trip":
+            x = tuple(departure_d.split('-'))
+            y = tuple(return_d.split('-'))
+
+            year = int(x[0])
+            month = int(x[1])
+            day = int(x[2])
+
+            year1 = int(y[0])
+            month1 = int(y[1])
+            day1 = int(y[2])
+            
+            cid = datetime.date(year,month,day)
+            cod = datetime.date(year1,month1,day1)
+
+            if cid < cod:
+                try:
+                    with sqlite3.connect('tour.db') as db:
+                        db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, passengers, source, destination, session['username']))
+                        db.commit()
+                    return redirect(url_for('payment'))
+                except:
+                    msg = "Something went wrong while booking flight!"
+                    # msg = f"No flights available to {destination} on {departure_d}. Please try another date."
+                    return render_template('flights.html', msg= msg)
+            else:
+                msg = "Departure date must be before Return date!"
+                return render_template("hotels.html", msg=msg)
+        else:
+            try:
+                with sqlite3.connect('tour.db') as db:
+                    db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, passengers, source, destination, session['username']))
+                    db.commit()
+                return redirect(url_for('payment'))
+            except:
+                msg = "Something went wrong while booking flight!"
+                # msg = f"No flights available to {destination} on {departure_d}. Please try another date."
+                return render_template('flights.html', msg= msg)
     return render_template("flights.html")
 
 @app.route('/payment', methods = ['GET', 'POST'])
@@ -315,7 +364,7 @@ def payment():
                 class_type = k[4]
                 departure_d = k[5]
                 return_d = k[6]
-                passengers = no_of_guests
+                passengers = k[7]
                 source = k[8]
                 destination = k[9]
 
@@ -444,7 +493,7 @@ def profile():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template("logout.html")
+    return render_template("index.html")
 
 
 @app.route('/about')
