@@ -327,19 +327,6 @@ def flights():
 def payment():
     if request.method == "GET":
         with sqlite3.connect('tour.db') as db:
-            dest_details = db.execute("select estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
-            dest_row = dest_details.fetchall()
-            hotel_details = db.execute("select cost from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
-            hotel_row = hotel_details.fetchall()
-            flight_details = db.execute("select flight_cost from flights inner join users on users.username=flights.username and users.username = ?", (session['username'],))
-            flight_row = flight_details.fetchall()
-            for i in dest_row:
-                dest_pack = i[0]
-            for j in hotel_row:
-                hotel_cost = j[0]
-            for k in flight_row:
-                flight_cost = k[0]
-        with sqlite3.connect('tour.db') as db:
             dest_details = db.execute("select * from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
             dest_row = dest_details.fetchall()
             hotel_details = db.execute("select * from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
@@ -350,8 +337,10 @@ def payment():
                 package_name = i[2]
                 place = i[3]
                 no_of_days = i[4]
+                dest_pack = i[5]
 
             for j in hotel_row:
+                hotel_cost = j[2]
                 category = j[3]   
                 room_type = j[4]
                 no_of_guests = j[5]
@@ -360,6 +349,7 @@ def payment():
                 # no_of_days = j[8]
 
             for k in flight_row:
+                flight_cost = k[2]
                 trip_type = k[3]
                 class_type = k[4]
                 departure_d = k[5]
@@ -493,7 +483,8 @@ def profile():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template("index.html")
+    msg = "You have logged out successfully!"
+    return render_template("index.html", msg=msg)
 
 
 @app.route('/about')
