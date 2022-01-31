@@ -47,6 +47,7 @@ def register():
             return render_template("register.html", error = error)
         elif not matc:
             error = "Please enter a Valid Password!"
+            return render_template("register.html", error = error)
         elif password != confirm:
             error = "password and confirm password don't match!"
             return render_template("register.html", error = error)
