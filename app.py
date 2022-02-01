@@ -258,7 +258,7 @@ def hotels():
         if cid < cod:
             try:
                 with sqlite3.connect('tour.db') as db:
-                    db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, no_of_guests, check_in_date, check_out_date, session["username"]))
+                    db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, abs(int(no_of_guests)), check_in_date, check_out_date, session["username"]))
                     db.commit()
                 msg = "hotel room booked successfully!"
                 return render_template('flights.html', msg = msg)
@@ -302,7 +302,7 @@ def flights():
             if cid < cod:
                 try:
                     with sqlite3.connect('tour.db') as db:
-                        db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, passengers, source, destination, session['username']))
+                        db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, abs(int(passengers)), source, destination, session['username']))
                         db.commit()
                     return redirect(url_for('payment'))
                 except:
@@ -364,7 +364,7 @@ def payment():
             else:
                 flight_cost = flight_cost
 
-            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
+            total_amount = (int(dest_pack) * no_of_guests) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
             
             try:
                 db.execute("insert into bookings values(null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(session['name'], session['email'], passengers, package_name, place, no_of_days, date_now, time_now, category, room_type, no_of_guests, check_in_date, check_out_date, trip_type, class_type, departure_d, return_d, source, destination, total_amount, session['username']))
@@ -428,7 +428,7 @@ def bill():
             else:
                 flight_cost = flight_cost
             
-            total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
+            total_amount = (int(dest_pack) * no_of_guests) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
 
         return render_template("billing.html", total_amount=total_amount, package_name=package_name, dest_pack=dest_pack, hotel_cost=hotel_cost, flight_cost=flight_cost, booking_id=booking_id, booking_date=booking_date, booking_time=booking_time)
         
@@ -466,7 +466,7 @@ def pdf():
         else:
             flight_cost = flight_cost
         
-    total_amount = int(dest_pack) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
+    total_amount = (int(dest_pack) * no_of_guests) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
     
     html = render_template("billing.html", package_name=package_name, booking_id=booking_id, booking_date=booking_date, booking_time=booking_time, total_amount=total_amount, flight_cost=flight_cost, hotel_cost=hotel_cost, dest_pack=dest_pack)
     pdf = pdfkit.from_string(html, False)
