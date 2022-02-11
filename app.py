@@ -21,6 +21,7 @@ time_now = dt.strftime("%X")
 def index():
     return render_template("index.html")
 
+
 @app.route('/home')
 def home():
     return render_template("home.html")
@@ -85,11 +86,11 @@ def login():
                 session['email'] = email
                 return redirect(url_for("profile"))
             else:
-                # print("user not found")
-                error = "User not found! Please enter valid username or password!"
+                # print("Invalid credentials")
+                error = "Invalid credentials! Please enter valid username or password!"
                 return render_template("login.html", error = error)
         else:
-            error = "User not found! Please enter valid username or password!"
+            error = "Invalid credentials! Please enter valid username or password!"
             return render_template("login.html", error = error)
     return render_template("login.html")
 
@@ -484,8 +485,7 @@ def profile():
 @app.route('/logout')
 def logout():
     session.clear()
-    msg = "You have logged out successfully!"
-    return render_template("index.html", msg=msg)
+    return render_template("index.html")
 
 
 @app.route('/about')
