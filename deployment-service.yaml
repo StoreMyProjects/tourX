@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: flask-deployment
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: tourx
@@ -11,7 +12,6 @@ spec:
       labels:
         app: tourx
     spec:
-      replicas: 2
       containers:
       - name: tourx
         image: amrendra01/flask-app:25
