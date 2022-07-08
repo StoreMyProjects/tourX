@@ -31,9 +31,18 @@ pipeline {
                 }
             }
         }
+        stage('Publish Build') {
+            steps {
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        dockerImg.push()
+                    }
+                }
+            }
+        }
         stage('Deploy to Kubernetes cluster') {
             steps {
-                echo 'working on it...'
+                kubernetesDeploy configs: 'deployment-service.yaml', kubeConfig: [path: ''], kubeconfigId: 'eks-kube', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
             }
         }
     }
