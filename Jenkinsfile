@@ -26,8 +26,8 @@ pipeline {
         stage('Test Staging') {
             steps {
                 sshagent(['ubuntu']) {
-                    // sh "docker stop flaskapp-ci-cd"
-                    // sh "docker rm flaskapp-ci-cd"
+                    sh "docker stop flaskapp-ci-cd"
+                    sh "docker rm flaskapp-ci-cd"
                     // sh "docker run -d -p 5000:5000 --name flaskapp-ci-cd-${env.BUILD_ID} ${img}"
                     sh "docker run -d -p 5000:5000 --name flaskapp-ci-cd ${img}"
                 }
