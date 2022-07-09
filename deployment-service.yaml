@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: flask-app-deploy
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: tourx
@@ -15,6 +15,7 @@ spec:
       containers:
       - name: tourx
         image: amrendra01/flask-app
+
         resources:
           limits:
             memory: "128Mi"
@@ -34,5 +35,5 @@ spec:
   ports:
     - protocol: TCP
       port: 5000
-      targetPort: 5000
+      targetPort: 9378
   type: LoadBalancer
