@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: tourx
-        image: amrendra01/flask-app:27
+        image: amrendra01/flask-app:28
         resources:
           limits:
             memory: "128Mi"
@@ -34,4 +34,5 @@ spec:
   ports:
     - protocol: TCP
       port: 5000
-      targetPort: 10376
+      targetPort: 9378
+  type: LoadBalancer
