@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: tourx
-        image: amrendra01/flask-app:25
+        image: amrendra01/flask-app:26
         resources:
           limits:
             memory: "128Mi"
