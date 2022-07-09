@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-deployment
+  name: flask-app-deploy
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: tourx
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: tourx
-        image: amrendra01/flask-app:28
+        image: amrendra01/flask-app:29
         resources:
           limits:
             memory: "128Mi"
