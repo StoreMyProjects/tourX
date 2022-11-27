@@ -70,14 +70,14 @@ def login():
         username = request.form.get('username')
         passwd = request.form.get('password')
         
-        user = db.execute("select * from users where username = ?", (username,))
-        rows = user.fetchall()
-        for x in rows:
+        user_data = db.execute("select * from users where username = ?", (username,))
+        users = user_data.fetchall()
+        for user in users:
             # print(x)
-            if username == x[2] and check_password_hash(x[3], passwd):
+            if username == user[2] and check_password_hash(user[3], passwd):
                 # print("user found")
-                name = x[0]
-                email = x[1]
+                name = user[0]
+                email = user[1]
                 session["LoggedIn"] = True
                 session['name'] = name
                 session['username'] = username
@@ -240,21 +240,21 @@ def hotels():
         check_out_date = request.form.get('checkOut')
         # no_of_days = request.form.get('noOfDays')
 
-        x = tuple(check_in_date.split('-'))
-        y = tuple(check_out_date.split('-'))
+        check_in = tuple(check_in_date.split('-'))
+        check_out = tuple(check_out_date.split('-'))
 
-        year = int(x[0])
-        month = int(x[1])
-        day = int(x[2])
+        year = int(check_in[0])
+        month = int(check_in[1])
+        day = int(check_in[2])
 
-        year1 = int(y[0])
-        month1 = int(y[1])
-        day1 = int(y[2])
+        year1 = int(check_out[0])
+        month1 = int(check_out[1])
+        day1 = int(check_out[2])
         
-        cid = datetime.date(year,month,day)
-        cod = datetime.date(year1,month1,day1)
+        checkInDate = datetime.date(year,month,day)
+        checkOutDate = datetime.date(year1,month1,day1)
 
-        if cid < cod:
+        if checkInDate < checkOutDate:
             try:
                 with sqlite3.connect('tour.db') as db:
                     db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, abs(int(no_of_guests)), check_in_date, check_out_date, session["username"]))
@@ -284,21 +284,21 @@ def flights():
         destination = request.form.get('destination')
 
         if trip_type == "Round Trip":
-            x = tuple(departure_d.split('-'))
-            y = tuple(return_d.split('-'))
+            departure_date = tuple(departure_d.split('-'))
+            return_date = tuple(return_d.split('-'))
 
-            year = int(x[0])
-            month = int(x[1])
-            day = int(x[2])
+            year = int(departure_date[0])
+            month = int(departure_date[1])
+            day = int(departure_date[2])
 
-            year1 = int(y[0])
-            month1 = int(y[1])
-            day1 = int(y[2])
+            year1 = int(return_date[0])
+            month1 = int(return_date[1])
+            day1 = int(return_date[2])
             
-            cid = datetime.date(year,month,day)
-            cod = datetime.date(year1,month1,day1)
+            checkInDate = datetime.date(year,month,day)
+            checkOutDate = datetime.date(year1,month1,day1)
 
-            if cid < cod:
+            if checkInDate < checkOutDate:
                 try:
                     with sqlite3.connect('tour.db') as db:
                         db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, abs(int(passengers)), source, destination, session['username']))
