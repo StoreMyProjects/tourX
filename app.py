@@ -6,9 +6,7 @@ import re, datetime
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'a1b2c3d4e5f6'
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
+app.config.from_pyfile("config.py")
 Session(app)
 
 db = sqlite3.connect('tour.db', check_same_thread=False)
@@ -494,4 +492,4 @@ def about():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0')
