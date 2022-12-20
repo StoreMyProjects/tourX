@@ -1,5 +1,4 @@
 
 # tourX is a web app project
-languages used - Python, Bootstrap-5.1, HTML, CSS
-framework used - flask
-database used - sqlite3
+Frontend: Bootstrap-5.1, HTML, CSS
+Backend: python, flask, sqlite3
