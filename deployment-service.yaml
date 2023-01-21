@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
+  name: flask-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: tourx
@@ -28,7 +28,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-service
+  name: flask-deployment-lb
+  labels:
+    app: tourx
 spec:
   selector:
     app: tourx
