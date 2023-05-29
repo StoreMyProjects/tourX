@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: tourx
-        image: amrendra01/flask-app
+        image: amrendra01/flask-app:docker_tag
 
         resources:
           limits:
