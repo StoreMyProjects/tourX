@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: tourx
-        image: amrendra01/flask-app:58
+        image: amrendra01/flask-app:18
 
         resources:
           limits:
