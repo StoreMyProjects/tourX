@@ -46,6 +46,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                     sh '''
+                    pwd
                     sed "s/img_tag/$BUILD_ID/g" deployment-service.yaml-tmpl > deployment-service.yaml
                     cat deployment-service.yaml
                     
