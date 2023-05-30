@@ -9,6 +9,11 @@ pipeline {
         }
     
     stages {
+        stage('Clean workspace'){
+            steps{
+                cleanWs disableDeferredWipeout: true, deleteDirs: true
+            }
+        }
         stage('Build Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/amrendra01/tourX.git']]])
@@ -20,16 +25,6 @@ pipeline {
                     img = registry + ":$BUILD_ID"
                     // img = registry
                     dockerImg = docker.build("${img}")
-                }
-            }
-        }
-        stage('Test Staging') {
-            steps {
-                sshagent(['ubuntu']) {
-
-                     sh "docker rm -f flaskapp-ci-cd"
-                    // sh "docker run -d -p 5000:5000 --name flaskapp-ci-cd-${env.BUILD_ID} ${img}"
-                    sh "docker run -d -p 5000:5000 --name flaskapp-ci-cd ${img}"
                 }
             }
         }
@@ -60,14 +55,9 @@ pipeline {
                  }
             }
         }
-        // stage('Deploy to Kubernetes cluster') {
-        //     steps {
-        //         kubernetesDeploy configs: 'deployment-service.yaml', kubeConfig: [path: ''], kubeconfigId: 'eks-kube', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
-        //     }
-        // }
-        stage('Clean workspace'){
-            steps{
-                cleanWs disableDeferredWipeout: true, deleteDirs: true
+        stage('Deploy to Kubernetes cluster') {
+            steps {
+                kubernetesDeploy configs: 'deployment-service.yaml', kubeConfig: [path: ''], kubeconfigId: 'eks-kube', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
             }
         }
     }
