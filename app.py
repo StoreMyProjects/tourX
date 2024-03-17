@@ -123,7 +123,7 @@ def destinations():
             msg = 'Please select a package!'
             return render_template("destinations.html", msg = msg)
         package_name = PACKAGE_DETAILS[selected_package]
-        print(package_name)
+
         if package_name:
             place = package_name['place']
             num_of_days = package_name['num_of_days']
