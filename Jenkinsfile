@@ -45,12 +45,12 @@ pipeline {
                     sed "s/img_tag/$BUILD_ID/g" deployment-service.yaml-tmpl > deployment-service.yaml
                     cat deployment-service.yaml
                     
-                    git config --global user.name amrendrasngh
+                    git config --global user.name "StoreMyProjects"
                     git config --global user.email singhamrendra1999@gmail.com
                     
                     git add deployment-service.yaml
                     git commit -m "Update deployment version"
-                    git push https://${GITHUB_TOKEN}@github.com/amrendrasngh/tourX HEAD:main
+                    git push https://${GITHUB_TOKEN}@github.com/StoreMyProjects/tourX HEAD:main
                     '''
                  }
             }
