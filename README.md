@@ -1,5 +1,5 @@
 
-# tourX is a python-flask web app project
-Frontend: Bootstrap, HTML, CSS
-Backend: python-flask
-Database: sqlite3
+# tourX is a python-flask webapp 
+1. Frontend: Bootstrap, HTML, CSS
+2. Backend: python-flask
+3. Database: sqlite3
