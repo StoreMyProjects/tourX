@@ -1,3 +1,4 @@
+Dockerfile
 *.yaml
 *.yaml-tmpl
 Jenkinsfile
