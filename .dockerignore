@@ -1,0 +1,5 @@
+*.yaml
+*.yaml-tmpl
+Jenkinsfile
+README.md
+.gitignore
