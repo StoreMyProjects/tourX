@@ -274,10 +274,12 @@ def bookingdetails():
             try:
                 db.row_factory = sqlite3.Row
                 cur = db.cursor()
-                cur.execute("select * from bookings inner join users on users.username=bookings.username and users.username = ?", (session['username'],))
-                rows = cur.fetchall()
-                for row in rows:
-                    print(row)
+                if session['username'] == "root":
+                    cur.execute("select * from bookings")
+                    rows = cur.fetchall()
+                else:
+                    cur.execute("select * from bookings inner join users on users.username=bookings.username and users.username = ?", (session['username'],))
+                    rows = cur.fetchall()
                 return render_template("bookings.html", rows=rows)
             except:
                 msg = "No Bookings yet!"
