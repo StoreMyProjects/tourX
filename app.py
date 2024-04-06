@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, url_for, redirect, session, make_response
+from flask import Flask, render_template, request, url_for, redirect, session, make_response, send_from_directory
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+import os
 import sqlite3, pdfkit
 import re, datetime
 
@@ -385,10 +387,35 @@ def pdf():
     return response
 
 
-@app.route('/profile')
-def profile():
-    return render_template("profile.html")    
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if request.method == 'POST':
+        if 'profile_pic' not in request.files:
+            return redirect("/profile")
+        
+        file = request.files['profile_pic']
+        
+        if file.filename == '':
+            return redirect("/profile")
+        
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            session['profile_pic']= filename
+            return render_template('profile.html', profile_pic=filename)
+        
+        return redirect("/profile")
+    profile_pic = session.get('profile_pic')
+    return render_template('profile.html', profile_pic=profile_pic)   
+
+
+@app.route('/uploads/<filename>')
+def uploaded_profile_image(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/logout')
 def logout():

@@ -43,13 +43,36 @@
     <h1 style="color: blue; background-color: whitesmoke;">Your Profile</h1>
       <div class="row justify-content-center">
           <!-- <div class="col-sm-9 p-5"> -->
-            <p><h3>Welcome, {{ session.username }}</h3></p>
+        <div class="col-md-6">
+          <p><h3>Welcome, {{ session.username }}</h3></p>
 
-            <p><h3>Name: {{ session.name }}</h3></p>
-            <p><h3>Email: {{ session.email }}</h3></p>
+          <p><h3>Name: {{ session.name }}</h3></p>
 
-            <!-- <h4><a href="/logout" >Log Out</a></h4> -->
-          <!-- </div> -->
+          <p><h3>Email: {{ session.email }}</h3></p>
+        </div>
+
+        <div class="col-md-6">
+          
+          <div class="container-fluid" style="padding-top: 20px;">
+            {% if profile_pic %}
+            <img src="{{ url_for('uploaded_profile_image', filename=profile_pic) }}" alt="Profile Image" style="max-width: 250px; max-height: 250px;">
+            {% else %}
+            <p>No profile image uploaded.</p>
+            {% endif %}
+          </div>
+          
+          <div class="container-fluid" style="align-self: center;">
+            <form action="/profile" method="post" enctype="multipart/form-data">
+              <label for="upload_pic" style="overflow: hidden;">
+                <i class="fa fa-upload"></i>
+              </label>
+              <input type="file" id="upload_pic" name="profile_pic" style="display: none;">
+              <input type="submit" value="Upload">
+            </form>
+          </div>
+        
+        </div>
+      
       </div>
   </div>
 </div>
