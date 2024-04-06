@@ -44,7 +44,6 @@
     <form action="/bookings" method="post">
         <div class="flex-container" style="display: flex; justify-content: space-between;">
             <div class="flex-item" style="width:49% ;">
-
         <table>
             <thead><b> Package Details </b></thead>
             <tr style="background-color: chocolate; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
@@ -115,6 +114,10 @@
                 <td>{{ row['source'] }}</td>
                 <td>{{ row['destination'] }}</td>
                 <td>{{ row['total_cost'] }}</td>
+                <td><form action="/delete_booking" method="post">
+                    <input type="hidden" name="booking_id" value="{{ row['id'] }}">
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                </form></td>
             </tr>
             {% endfor %}
         </table>

@@ -286,6 +286,23 @@ def bookingdetails():
                 return render_template("bookings.html", msg = msg)
     return render_template("home.html")
 
+@app.route('/delete_booking', methods=['GET','POST'])
+def delete_booking():
+    if request.method == "POST":
+        booking_id = request.form.get('booking_id')
+        print("form booking_id: ",booking_id)
+    with sqlite3.connect('tour.db') as db:
+        try:
+            db.execute("delete from bookings where id = ?", (booking_id,))
+            db.execute("delete from flights where id = ?", (booking_id,))
+            db.execute("delete from hotels where id = ?", (booking_id,))
+            db.commit()
+            return redirect("/bookings")
+        except:
+            db.rollback()
+            msg = "No Bookings found with this id!"
+            return render_template("bookings.html", msg = msg)
+
 
 @app.route('/bill')
 def bill():
