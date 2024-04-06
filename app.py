@@ -296,6 +296,7 @@ def delete_booking():
             db.execute("delete from bookings where id = ?", (booking_id,))
             db.execute("delete from flights where id = ?", (booking_id,))
             db.execute("delete from hotels where id = ?", (booking_id,))
+            db.execute("delete from destinations where id = ?", (booking_id,))
             db.commit()
             return redirect("/bookings")
         except:
