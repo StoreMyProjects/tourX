@@ -408,7 +408,6 @@ def profile():
             session['profile_pic']= filename
             return render_template('profile.html', profile_pic=filename)
         
-        return redirect("/profile")
     profile_pic = session.get('profile_pic')
     return render_template('profile.html', profile_pic=profile_pic)   
 
