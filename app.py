@@ -86,12 +86,8 @@ def login():
                 session['email'] = email
                 return redirect(url_for("profile"))
             else:
-                # print("Invalid credentials")
                 error = "Invalid credentials! Please enter valid username or password!"
                 return render_template("login.html", error = error)
-        else:
-            error = "Invalid credentials! Please enter valid username or password!"
-            return render_template("login.html", error = error)
     return render_template("login.html")
 
 PACKAGE_DETAILS = {
@@ -152,7 +148,6 @@ def hotels():
         no_of_guests = request.form.get('noOfGuests')
         check_in_date = request.form.get('checkIn')
         check_out_date = request.form.get('checkOut')
-        # no_of_days = request.form.get('noOfDays')
 
         checkInDate = datetime.datetime.strptime(check_in_date, '%Y-%m-%d')
         checkOutDate = datetime.datetime.strptime(check_out_date, '%Y-%m-%d')
@@ -166,7 +161,6 @@ def hotels():
                 return render_template('flights.html', msg = msg)
             except:
                 msg = "Something went wrong while booking hotel room!"
-                # msg = "No available hotel rooms in this category ! Please try with another category!"
                 return render_template("hotels.html", msg = msg)
         else:
             msg = "Check-in date must be before Check-out date!"
@@ -198,7 +192,6 @@ def flights():
                     return redirect(url_for('payment'))
                 except:
                     msg = "Something went wrong while booking flight!"
-                    # msg = f"No flights available to {destination} on {departure_d}. Please try another date."
                     return render_template('flights.html', msg= msg)
             else:
                 msg = "Departure date must be before Return date!"
@@ -211,7 +204,6 @@ def flights():
                 return redirect(url_for('payment'))
             except:
                 msg = "Something went wrong while booking flight!"
-                # msg = f"No flights available to {destination} on {departure_d}. Please try another date."
                 return render_template('flights.html', msg= msg)
     return render_template("flights.html")
 
@@ -252,8 +244,6 @@ def payment():
 
             if trip_type == "Round Trip":
                 flight_cost *= 2
-            else:
-                flight_cost = flight_cost
 
             total_amount = (int(dest_pack) * no_of_guests) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
             
@@ -336,8 +326,6 @@ def bill():
                 
             if trip_type == "Round Trip":
                 flight_cost *= 2
-            else:
-                flight_cost = flight_cost
             
             total_amount = (int(dest_pack) * no_of_guests) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
 
@@ -374,8 +362,6 @@ def pdf():
             
         if trip_type == "Round Trip":
             flight_cost *= 2
-        else:
-            flight_cost = flight_cost
         
     total_amount = (int(dest_pack) * no_of_guests) + (int(hotel_cost) * no_of_guests) + (int(flight_cost) * passengers)
     
