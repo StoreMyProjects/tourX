@@ -11,7 +11,9 @@ app = Flask(__name__)
 app.config.from_pyfile("config.py")
 Session(app)
 
-db = sqlite3.connect('tour.db', check_same_thread=False)
+dbname = 'tour.db'
+
+db = sqlite3.connect(dbname, check_same_thread=False)
 
 dt = datetime.datetime.now()
 date_now = dt.strftime("%x")
@@ -127,7 +129,7 @@ def destinations():
             num_of_days = package_name['num_of_days']
             estimated_cost = package_name['estimated_cost']
         try:
-            with sqlite3.connect('tour.db') as db:
+            with sqlite3.connect(dbname) as db:
                 db.execute("Insert into destinations values(null,?,?,?,?,?,?)",( session['email'], selected_package, place, num_of_days, estimated_cost, session['username'] ))
                 db.commit()       
             msg = "package added successfully!"
@@ -154,7 +156,7 @@ def hotels():
 
         if checkInDate < checkOutDate:
             try:
-                with sqlite3.connect('tour.db') as db:
+                with sqlite3.connect(dbname) as db:
                     db.execute("insert into hotels values(null,?,?,?,?,?,?,?,?)",(session["email"], cost, category, room_type, abs(int(no_of_guests)), check_in_date, check_out_date, session["username"]))
                     db.commit()
                 msg = "hotel room booked successfully!"
@@ -186,7 +188,7 @@ def flights():
 
             if departure_date < return_date:
                 try:
-                    with sqlite3.connect('tour.db') as db:
+                    with sqlite3.connect(dbname) as db:
                         db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, abs(int(passengers)), source, destination, session['username']))
                         db.commit()
                     return redirect(url_for('payment'))
@@ -198,7 +200,7 @@ def flights():
                 return render_template("hotels.html", msg=msg)
         else:
             try:
-                with sqlite3.connect('tour.db') as db:
+                with sqlite3.connect(dbname) as db:
                     db.execute("insert into flights values(null,?,?,?,?,?,?,?,?,?,?)",(session['email'], flight_cost, trip_type, class_type, departure_d, return_d, passengers, source, destination, session['username']))
                     db.commit()
                 return redirect(url_for('payment'))
@@ -210,7 +212,7 @@ def flights():
 @app.route('/payment', methods = ['GET', 'POST'])
 def payment():
     if request.method == "GET":
-        with sqlite3.connect('tour.db') as db:
+        with sqlite3.connect(dbname) as db:
             dest_details = db.execute("select * from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
             dest_row = dest_details.fetchall()
             hotel_details = db.execute("select * from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
@@ -262,7 +264,7 @@ def payment():
 @app.route('/bookings', methods=['GET', 'POST'])
 def bookingdetails():
     if request.method == "GET":
-        with sqlite3.connect('tour.db') as db:
+        with sqlite3.connect(dbname) as db:
             try:
                 db.row_factory = sqlite3.Row
                 cur = db.cursor()
@@ -283,7 +285,7 @@ def delete_booking():
     if request.method == "POST":
         booking_id = request.form.get('booking_id')
         print("form booking_id: ",booking_id)
-    with sqlite3.connect('tour.db') as db:
+    with sqlite3.connect(dbname) as db:
         try:
             db.execute("delete from bookings where id = ?", (booking_id,))
             db.execute("delete from flights where id = ?", (booking_id,))
@@ -300,7 +302,7 @@ def delete_booking():
 @app.route('/bill')
 def bill():
     if request.method == 'GET':
-        with sqlite3.connect('tour.db') as db:
+        with sqlite3.connect(dbname) as db:
             dest_details = db.execute("select package_name, estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
             dest_row = dest_details.fetchall()
             hotel_details = db.execute("select cost, no_of_guests from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
@@ -336,7 +338,7 @@ def bill():
 
 @app.route('/pdf')
 def pdf():
-    with sqlite3.connect('tour.db') as db:
+    with sqlite3.connect(dbname) as db:
         dest_details = db.execute("select package_name, estimated_cost from destinations inner join users on users.username=destinations.username and users.username = ?", (session['username'],))
         dest_row = dest_details.fetchall()
         hotel_details = db.execute("select cost, no_of_guests from hotels inner join users on users.username=hotels.username and users.username = ?", (session['username'],))
