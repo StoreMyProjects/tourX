@@ -19,7 +19,16 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/amrendra01/tourX.git']]])
             }
         }
-        stage('Build Image') {
+        stage('Sonarcloud SAST scan') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarCloud') {
+                        sh ' sonar-scanner -Dsonar.organization="storemyprojects" -Dsonar.projectKey="storemyprojects_tourx" -Dsonar.sources=. -Dsonar.host.url="https://sonarcloud.io" -Dsonar.token="$SONAR_TOKEN" '
+                    }
+                }
+            }
+        }
+        stage('Build Docker Image') {
             steps {
                 script {
                     img = registry + ":$BUILD_ID"
@@ -37,7 +46,17 @@ pipeline {
                 }
             }
         }
-        stage('Update deployment file') {
+        stage('Scan Docker Image with Trivy') {
+            steps {
+                script {
+                    sh '''
+                    docker pull $dockerImg
+                    trivy image --exit-code 1 --severity HIGH,CRITICAL $dockerImg || echo 'Security scan failed!'
+                    '''
+                }
+            }
+        }
+        stage('Update manifest file with latest image') {
             steps {
                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                     sh '''
