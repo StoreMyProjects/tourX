@@ -14,7 +14,7 @@ pipeline {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
         }
-        stage('Build Checkout') {
+        stage('Code Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/amrendra01/tourX.git']]])
             }
@@ -37,7 +37,7 @@ pipeline {
                 }
             }
         }
-        stage('Publish Build') {
+        stage('Publish Build to DockerHub') {
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
